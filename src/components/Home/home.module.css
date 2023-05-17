@@ -1,7 +1,12 @@
+.home {
+  color: #383d39;
+  padding-top: 220px;
+}
+
 .headder {
   position: absolute;
   top: 0;
-
+  left: 0;
   width: 100%;
   background-color: white;
   border-bottom: 2px solid #95ad9c;

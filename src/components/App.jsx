@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './Home';
 import Movies from './Movies';
+import Layout from './Layout';
+import Home from './Home';
+
 export const App = () => {
   return (
     <div
@@ -14,8 +16,10 @@ export const App = () => {
       }}
     >
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<Movies />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="movies" element={<Movies />} />
+        </Route>
       </Routes>
     </div>
   );
