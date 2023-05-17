@@ -1,0 +1,28 @@
+.headder {
+  position: absolute;
+  top: 0;
+
+  width: 100%;
+  background-color: white;
+  border-bottom: 2px solid #95ad9c;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.link {
+  text-decoration: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #383d39;
+}
+.link:not(:last-child) {
+  margin-right: 15px;
+}
+.link:hover,
+.link:focus {
+  text-decoration: none;
+  color: #50a669;
+}
