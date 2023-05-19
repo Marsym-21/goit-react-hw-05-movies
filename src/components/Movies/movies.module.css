@@ -1,3 +1,37 @@
 .movies {
   color: #383d39;
 }
+.movie_card {
+  display: flex;
+  flex-direction: row;
+}
+.movie_inf {
+  margin-left: 20px;
+}
+.movie_title {
+  margin: 0;
+  font-size: 30px;
+  padding: 10px 0;
+}
+.movie_text {
+  margin: 0;
+  font-size: 20px;
+  padding: 10px 0;
+}
+.movie_title2 {
+  margin: 0;
+  font-size: 28px;
+  padding: 10px 0;
+}
+.movie_title3 {
+  margin: 0;
+  font-size: 26px;
+  padding: 10px 0;
+}
+.banner_error {
+  width: 300px;
+  height: 350px;
+  text-align: center;
+  border: 1px solid #383d39;
+  padding-top: 150px;
+}

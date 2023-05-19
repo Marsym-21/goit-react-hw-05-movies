@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 const ContextAlert = React.createContext();
 
@@ -7,9 +7,9 @@ export const useCustomContext = () => {
 };
 
 const Context = ({ children }) => {
-  //   const [data, setData] = useState('data');
+  const [id, setId] = useState('');
   return (
-    <ContextAlert.Provider value={{ data: 'Home' }}>
+    <ContextAlert.Provider value={{ id: id, setId: setId }}>
       {children}
     </ContextAlert.Provider>
   );

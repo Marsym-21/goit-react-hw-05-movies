@@ -1,8 +1,11 @@
-.home {
-  color: #383d39;
-  padding-top: 220px;
+.app {
+  height: 100vh;
+  font-size: 40px;
+  color: #010101;
+  padding-top: 65px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-
 .headder {
   position: absolute;
   top: 0;
@@ -10,6 +13,7 @@
   width: 100%;
   background-color: white;
   border-bottom: 2px solid #95ad9c;
+  padding-left: 15px;
 }
 
 .nav {
@@ -30,4 +34,22 @@
 .link:focus {
   text-decoration: none;
   color: #50a669;
+}
+
+.home {
+  color: #383d39;
+}
+.home_list {
+  margin: 0;
+}
+
+.home_item:hover,
+.home_item:focus {
+  color: #50a669;
+  cursor: pointer;
+}
+
+.home_link {
+  text-decoration: none;
+  color: inherit;
 }

@@ -1,27 +1,39 @@
-// import { useCustomContext } from 'components/Context/Context';
 import css from './home.module.css';
-import { useState } from 'react';
-import { getTopMovies } from './GeteDataInform';
+import { useEffect, useState } from 'react';
+import { getTopMovies } from '../GetContent/GetTopMovies';
+import { useCustomContext } from '../Context/Context';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
-  //   const { data } = useCustomContext();
+  const { setId } = useCustomContext();
   const [moviesArray, setMovies] = useState([]);
 
-  useState(() => {
+  useEffect(() => {
     getTopMovies()
       .then(movies => {
-        console.log(movies);
         setMovies([...movies.results]);
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
   }, []);
 
   return (
     <div className={css.home}>
-      <p>Home</p>
-      <ul>
+      <h1 className={css.home_title}>Trending Today</h1>
+      <ul className={css.home_list}>
         {moviesArray.map(({ title, id, name }) =>
-          title ? <li key={id}>{title}</li> : <li key={id}>{name}</li>
+          title ? (
+            <li key={id} onClick={() => setId(id)} className={css.home_item}>
+              <Link className={css.home_link} to={`/movies/:${id}`}>
+                {title}
+              </Link>
+            </li>
+          ) : (
+            <li key={id} onClick={() => setId(id)} className={css.home_item}>
+              <Link className={css.home_link} to={`/movies/:${id}`}>
+                {name}
+              </Link>
+            </li>
+          )
         )}
       </ul>
     </div>
