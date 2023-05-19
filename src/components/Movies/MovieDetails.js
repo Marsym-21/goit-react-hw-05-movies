@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCustomContext } from '../Context/Context';
 import { getMovieDetails } from '../GetContent/GetMovieDetails';
 import css from './movies.module.css';
+import { Link } from 'react-router-dom';
 
 const MovieDetails = () => {
   const { id } = useCustomContext();
@@ -58,7 +59,14 @@ const MovieDetails = () => {
       </div>
       <div className={css.movie_add_inf}>
         <p className={css.movie_text}>Additional information</p>
-        <ul></ul>
+        <ul>
+          <li>
+            <Link to={`/movies/:${id}/cast`}>Cast</Link>
+          </li>
+          <li>
+            <Link to={`/movies/:${id}/reviews`}>Rewies</Link>
+          </li>
+        </ul>
       </div>
     </>
   ) : (
