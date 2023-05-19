@@ -36,25 +36,31 @@ const MovieDetails = () => {
   }, [id]);
 
   return movie.adult === false ? (
-    <div className={css.movie_card}>
-      {movie.poster_path ? (
-        <img
-          src={`${BASE_IMG_URL}${movie.poster_path}`}
-          width="300 px"
-          alt=""
-        ></img>
-      ) : (
-        <b className={css.banner_error}>Sorry, the banner was not found</b>
-      )}
-      <div className={css.movie_inf}>
-        <h1 className={css.movie_title}>{`${movie.title}(${date})`}</h1>
-        <p className={css.movie_text}>User score: {score}%</p>
-        <h2 className={css.movie_title2}>Overview</h2>
-        <p className={css.movie_text}>{movie.overview}</p>
-        <h3 className={css.movie_title3}>Genres</h3>
-        <p className={css.movie_text}>{genres}</p>
+    <>
+      <div className={css.movie_card}>
+        {movie.poster_path ? (
+          <img
+            src={`${BASE_IMG_URL}${movie.poster_path}`}
+            width="300 px"
+            alt=""
+          ></img>
+        ) : (
+          <b className={css.banner_error}>Sorry, the banner was not found</b>
+        )}
+        <div className={css.movie_inf}>
+          <h1 className={css.movie_title}>{`${movie.title}(${date})`}</h1>
+          <p className={css.movie_text}>User score: {score}%</p>
+          <h2 className={css.movie_title2}>Overview</h2>
+          <p className={css.movie_text}>{movie.overview}</p>
+          <h3 className={css.movie_title3}>Genres</h3>
+          <p className={css.movie_text}>{genres}</p>
+        </div>
       </div>
-    </div>
+      <div className={css.movie_add_inf}>
+        <p className={css.movie_text}>Additional information</p>
+        <ul></ul>
+      </div>
+    </>
   ) : (
     <b className={css.movie_error}>
       Sorry, we don't have detailed information about this movie !!!
