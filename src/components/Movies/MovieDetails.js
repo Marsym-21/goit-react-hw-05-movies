@@ -3,9 +3,12 @@ import { useCustomContext } from '../Context/Context';
 import { getMovieDetails } from '../GetContent/GetMovieDetails';
 import css from './movies.module.css';
 import { Link } from 'react-router-dom';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import MovieCast from './MoviesCast';
+import MovieReviews from './MoviesReviews';
 
 const MovieDetails = () => {
-  const { id } = useCustomContext();
+  const { id, statusC, setStatusc, statusR, setStatusr } = useCustomContext();
   const [movie, setMovie] = useState({});
   const [date, setDate] = useState('');
   const [score, setScore] = useState(0);
@@ -15,7 +18,6 @@ const MovieDetails = () => {
   useEffect(() => {
     getMovieDetails(id)
       .then(movie => {
-        console.log(movie);
         setMovie(movie);
         const movieDate = movie.release_date;
         if (movieDate) {
@@ -27,9 +29,7 @@ const MovieDetails = () => {
         const arrayGenres = movie.genres;
         let newArrayGenres = [];
         arrayGenres.forEach(({ name }) => {
-          console.log(name);
           newArrayGenres.push(name);
-          console.log(newArrayGenres);
           setGenres(newArrayGenres.join(', '));
         });
       })
@@ -38,6 +38,13 @@ const MovieDetails = () => {
 
   return movie.adult === false ? (
     <>
+      <Link className={css.movie_back_link} to={`/`}>
+        <button className={css.movie_back}>
+          <AiOutlineArrowLeft fill="black" size="12" />
+          Go Back
+        </button>
+      </Link>
+
       <div className={css.movie_card}>
         {movie.poster_path ? (
           <img
@@ -59,15 +66,35 @@ const MovieDetails = () => {
       </div>
       <div className={css.movie_add_inf}>
         <p className={css.movie_text}>Additional information</p>
-        <ul>
-          <li>
-            <Link to={`/movies/:${id}/cast`}>Cast</Link>
+        <ul className={css.movie_list_addinf}>
+          <li className={css.movie_item_addinf}>
+            <Link
+              className={css.movie_link_addinf}
+              to={`/movies/:${id}/cast`}
+              onClick={() => {
+                setStatusc(true);
+                setStatusr(false);
+              }}
+            >
+              Cast
+            </Link>
           </li>
-          <li>
-            <Link to={`/movies/:${id}/reviews`}>Rewies</Link>
+          <li className={css.movie_item_addinf}>
+            <Link
+              className={css.movie_link_addinf}
+              to={`/movies/:${id}/reviews`}
+              onClick={() => {
+                setStatusc(false);
+                setStatusr(true);
+              }}
+            >
+              Rewies
+            </Link>
           </li>
         </ul>
       </div>
+      {statusC ? <MovieCast /> : ''}
+      {statusR ? <MovieReviews /> : ''}
     </>
   ) : (
     <b className={css.movie_error}>

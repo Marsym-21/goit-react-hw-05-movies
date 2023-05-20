@@ -1,6 +1,16 @@
 .movies {
   color: #383d39;
 }
+.movie_back_link {
+  text-decoration: none;
+}
+.movie_back {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0px;
+  color: black;
+}
 .movie_card {
   display: flex;
   flex-direction: row;
@@ -37,4 +47,22 @@
 }
 .movie_add_inf {
   border: 2px solid #383d39;
+  padding-left: 30px;
+}
+.movie_list_addinf {
+  margin: 0;
+  padding: 0;
+}
+.movie_item_addinf {
+  list-style: none;
+  font-size: 20px;
+}
+.cast_item {
+  list-style: none;
+}
+.cast_text {
+  font-size: 20px;
+}
+.cast_list {
+  padding-left: 30px;
 }

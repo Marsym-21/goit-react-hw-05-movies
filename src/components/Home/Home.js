@@ -5,7 +5,7 @@ import { useCustomContext } from '../Context/Context';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const { setId } = useCustomContext();
+  const { setId, setStatusc, setStatusr } = useCustomContext();
   const [moviesArray, setMovies] = useState([]);
 
   useEffect(() => {
@@ -22,13 +22,29 @@ const Home = () => {
       <ul className={css.home_list}>
         {moviesArray.map(({ title, id, name }) =>
           title ? (
-            <li key={id} onClick={() => setId(id)} className={css.home_item}>
+            <li
+              key={id}
+              onClick={() => {
+                setId(id);
+                setStatusc(false);
+                setStatusr(false);
+              }}
+              className={css.home_item}
+            >
               <Link className={css.home_link} to={`/movies/:${id}`}>
                 {title}
               </Link>
             </li>
           ) : (
-            <li key={id} onClick={() => setId(id)} className={css.home_item}>
+            <li
+              key={id}
+              onClick={() => {
+                setId(id);
+                setStatusc(false);
+                setStatusr(false);
+              }}
+              className={css.home_item}
+            >
               <Link className={css.home_link} to={`/movies/:${id}`}>
                 {name}
               </Link>
