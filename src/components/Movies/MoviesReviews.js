@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { useCustomContext } from '../Context/Context';
 import { getMovieReviews } from '../GetContent/GetMovieReviews';
 import { useParams } from 'react-router-dom';
 import css from './movies.module.css';
@@ -12,7 +11,6 @@ const STATUS = {
 };
 
 const MovieReviews = () => {
-  // const { id } = useCustomContext();
   const [review, setReview] = useState([]);
   const { movieId } = useParams();
   const [status, setStatus] = useState(STATUS.IDLE);

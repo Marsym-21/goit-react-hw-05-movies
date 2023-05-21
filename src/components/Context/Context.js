@@ -8,21 +8,12 @@ export const useCustomContext = () => {
 
 const Context = ({ children }) => {
   const [id, setId] = useState('');
-  const [statusC, setStatusc] = useState(false);
-  const [statusR, setStatusr] = useState(false);
-  const [btnBack, setBtnBack] = useState(true);
 
   return (
     <ContextAlert.Provider
       value={{
         id: id,
         setId: setId,
-        statusC: statusC,
-        setStatusc: setStatusc,
-        statusR: statusR,
-        setStatusr: setStatusr,
-        btnBack: btnBack,
-        setBtnBack: setBtnBack,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 import css from './movies.module.css';
 import { useCustomContext } from '../Context/Context';
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { getMovieSearch } from '../GetContent/GetMovieSearch';
 
 const STATUS = {
@@ -11,7 +11,7 @@ const STATUS = {
   RESOLVED: 'resolved',
 };
 const Movies = () => {
-  const { setId, setStatusc, setStatusr, setBtnBack } = useCustomContext();
+  const { setId } = useCustomContext();
   const [name, setName] = useState('');
   const [searchName, setSearchName] = useState(
     JSON.parse(window.localStorage.getItem('searchName')) ?? ''
@@ -21,6 +21,7 @@ const Movies = () => {
     JSON.parse(window.localStorage.getItem('moviesSearch')) ?? []
   );
   console.log(searchParams.get('query'));
+  const location = useLocation();
   const [status, setStatus] = useState(STATUS.IDLE);
 
   const handleNameChange = e => {
@@ -86,12 +87,13 @@ const Movies = () => {
               className={css.movies_item}
               onClick={() => {
                 setId(id);
-                setStatusc(false);
-                setStatusr(false);
-                setBtnBack(false);
               }}
             >
-              <Link className={css.movies_link} to={`/movies/${id}`}>
+              <Link
+                className={css.movies_link}
+                to={`/movies/${id}`}
+                state={{ from: location }}
+              >
                 {title}
               </Link>
             </li>

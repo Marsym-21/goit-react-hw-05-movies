@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useCustomContext } from '../Context/Context';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { getMovieDetails } from '../GetContent/GetMovieDetails';
 import css from './movies.module.css';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation, Outlet } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import MovieCast from './MoviesCast';
-import MovieReviews from './MoviesReviews';
 
 const STATUS = {
   IDLE: 'idle',
@@ -15,8 +12,6 @@ const STATUS = {
 };
 
 const MovieDetails = () => {
-  const { id, statusC, setStatusc, statusR, setStatusr, btnBack } =
-    useCustomContext();
   const [movie, setMovie] = useState(
     JSON.parse(window.localStorage.getItem('movie')) ?? {}
   );
@@ -25,15 +20,20 @@ const MovieDetails = () => {
   const [genres, setGenres] = useState('');
   const { movieId } = useParams();
   const [status, setStatus] = useState(STATUS.IDLE);
+  const location = useLocation();
   const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500/';
+
+  const backLinkLocationRef = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     setStatus(STATUS.PENDING);
-    if (!id) {
+
+    if (!movieId) {
       setStatus(STATUS.REJECTED);
       return;
     }
-    getMovieDetails(id)
+
+    getMovieDetails(movieId)
       .then(movie => {
         if (movie.success === false) {
           setStatus(STATUS.REJECTED);
@@ -61,7 +61,7 @@ const MovieDetails = () => {
         console.error(error);
         setStatus(STATUS.REJECTED);
       });
-  }, [id]);
+  }, [movieId]);
 
   useEffect(() => {
     window.localStorage.setItem('movie', JSON.stringify(movie));
@@ -73,7 +73,7 @@ const MovieDetails = () => {
   if (status === STATUS.RESOLVED)
     return (
       <>
-        <Link className={css.movie_back_link} to={btnBack ? '/' : '/movies'}>
+        <Link className={css.movie_back_link} to={backLinkLocationRef.current}>
           <button className={css.movie_back}>
             <AiOutlineArrowLeft fill="black" size="12" />
             Go Back
@@ -106,10 +106,7 @@ const MovieDetails = () => {
               <Link
                 className={css.movie_link_addinf}
                 to={`/movies/${movieId}/cast`}
-                onClick={() => {
-                  setStatusc(true);
-                  setStatusr(false);
-                }}
+                state={{ from: location }}
               >
                 Cast
               </Link>
@@ -118,24 +115,22 @@ const MovieDetails = () => {
               <Link
                 className={css.movie_link_addinf}
                 to={`/movies/${movieId}/reviews`}
-                onClick={() => {
-                  setStatusc(false);
-                  setStatusr(true);
-                }}
+                state={{ from: location }}
               >
                 Rewies
               </Link>
             </li>
           </ul>
         </div>
-        {statusC ? <MovieCast /> : ''}
-        {statusR ? <MovieReviews /> : ''}
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </>
     );
   if (status === STATUS.REJECTED)
     return (
       <>
-        <Link className={css.movie_back_link} to={btnBack ? '/' : '/movies'}>
+        <Link className={css.movie_back_link} to={backLinkLocationRef.current}>
           <button className={css.movie_back}>
             <AiOutlineArrowLeft fill="black" size="12" />
             Go Back

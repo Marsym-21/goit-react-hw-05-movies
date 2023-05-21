@@ -2,7 +2,7 @@ import css from './home.module.css';
 import { useEffect, useState } from 'react';
 import { getTopMovies } from '../GetContent/GetTopMovies';
 import { useCustomContext } from '../Context/Context';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const STATUS = {
   IDLE: 'idle',
@@ -12,9 +12,10 @@ const STATUS = {
 };
 
 const Home = () => {
-  const { setId, setStatusc, setStatusr, setBtnBack } = useCustomContext();
+  const { setId } = useCustomContext();
   const [moviesArray, setMovies] = useState([]);
   const [status, setStatus] = useState(STATUS.IDLE);
+  const location = useLocation();
 
   useEffect(() => {
     setStatus(STATUS.PENDING);
@@ -31,9 +32,6 @@ const Home = () => {
 
   const onCliclHomeList = id => {
     setId(id);
-    setStatusc(false);
-    setStatusr(false);
-    setBtnBack(true);
   };
 
   return (
@@ -54,7 +52,11 @@ const Home = () => {
                 }}
                 className={css.home_item}
               >
-                <Link className={css.home_link} to={`/movies/${id}`}>
+                <Link
+                  className={css.home_link}
+                  to={`/movies/${id}`}
+                  state={{ from: location }}
+                >
                   {title}
                 </Link>
               </li>
@@ -66,7 +68,11 @@ const Home = () => {
                 }}
                 className={css.home_item}
               >
-                <Link className={css.home_link} to={`/movies/${id}`}>
+                <Link
+                  className={css.home_link}
+                  to={`/movies/${id}`}
+                  state={{ from: location }}
+                >
                   {name}
                 </Link>
               </li>

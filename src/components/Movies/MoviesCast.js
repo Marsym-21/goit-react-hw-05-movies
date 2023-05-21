@@ -12,7 +12,6 @@ const STATUS = {
 };
 
 const MovieCast = () => {
-  // const { id } = useCustomContext();
   const [cast, setCast] = useState([]);
   const { movieId } = useParams();
   const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500/';
