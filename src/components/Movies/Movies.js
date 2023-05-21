@@ -20,9 +20,9 @@ const Movies = () => {
 
   return (
     <div className={css.movies}>
-      <form className={css.SearchForm}>
+      <form className={css.movies_form}>
         <input
-          // className={css['SearchForm-input']}
+          className={css.input}
           type="text"
           autoComplete="off"
           autoFocus
@@ -31,6 +31,7 @@ const Movies = () => {
           // value={name}
         />
         <button
+          className={css.btn_sub}
           type="submit"
           // className={css['SearchForm-button']}
           onClick={submitForm}

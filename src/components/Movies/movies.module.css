@@ -1,6 +1,19 @@
 .movies {
   color: #383d39;
 }
+.movies_form {
+  display: flex;
+  align-self: baseline;
+  margin-top: 10px;
+}
+.input {
+  height: 25px;
+  font-size: 20px;
+}
+.btn_sub {
+  height: 31px;
+  font-size: 20px;
+}
 .movie_back_link {
   text-decoration: none;
 }
