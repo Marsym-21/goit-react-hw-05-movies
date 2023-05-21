@@ -11,6 +11,7 @@ const Context = ({ children }) => {
   const [statusC, setStatusc] = useState(false);
   const [statusR, setStatusr] = useState(false);
   const [btnBack, setBtnBack] = useState(true);
+
   return (
     <ContextAlert.Provider
       value={{

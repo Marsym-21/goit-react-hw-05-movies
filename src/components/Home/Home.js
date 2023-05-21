@@ -4,16 +4,29 @@ import { getTopMovies } from '../GetContent/GetTopMovies';
 import { useCustomContext } from '../Context/Context';
 import { Link } from 'react-router-dom';
 
+const STATUS = {
+  IDLE: 'idle',
+  PENDING: 'panding',
+  REJECTED: 'rejected',
+  RESOLVED: 'resolved',
+};
+
 const Home = () => {
   const { setId, setStatusc, setStatusr, setBtnBack } = useCustomContext();
   const [moviesArray, setMovies] = useState([]);
+  const [status, setStatus] = useState(STATUS.IDLE);
 
   useEffect(() => {
+    setStatus(STATUS.PENDING);
     getTopMovies()
       .then(movies => {
         setMovies([...movies.results]);
+        setStatus(STATUS.RESOLVED);
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        console.error(error);
+        setStatus(STATUS.REJECTED);
+      });
   }, []);
 
   const onCliclHomeList = id => {
@@ -26,31 +39,41 @@ const Home = () => {
   return (
     <div className={css.home}>
       <h1 className={css.home_title}>Trending Today</h1>
-      <ul className={css.home_list}>
-        {moviesArray.map(({ title, id, name }) =>
-          title ? (
-            <li
-              key={id}
-              onClick={onCliclHomeList(id)}
-              className={css.home_item}
-            >
-              <Link className={css.home_link} to={`/movies/${id}`}>
-                {title}
-              </Link>
-            </li>
-          ) : (
-            <li
-              key={id}
-              onClick={onCliclHomeList(id)}
-              className={css.home_item}
-            >
-              <Link className={css.home_link} to={`/movies/${id}`}>
-                {name}
-              </Link>
-            </li>
-          )
-        )}
-      </ul>
+      {status === STATUS.PENDING && (
+        <p className={css.home_title}>Loading...</p>
+      )}
+
+      {status === STATUS.RESOLVED && (
+        <ul className={css.home_list}>
+          {moviesArray.map(({ title, id, name }) =>
+            title ? (
+              <li
+                key={id}
+                onClick={() => {
+                  onCliclHomeList(id);
+                }}
+                className={css.home_item}
+              >
+                <Link className={css.home_link} to={`/movies/${id}`}>
+                  {title}
+                </Link>
+              </li>
+            ) : (
+              <li
+                key={id}
+                onClick={() => {
+                  onCliclHomeList(id);
+                }}
+                className={css.home_item}
+              >
+                <Link className={css.home_link} to={`/movies/${id}`}>
+                  {name}
+                </Link>
+              </li>
+            )
+          )}
+        </ul>
+      )}
     </div>
   );
 };

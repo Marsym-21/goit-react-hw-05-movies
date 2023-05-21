@@ -4,15 +4,25 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { getMovieSearch } from '../GetContent/GetMovieSearch';
 
+const STATUS = {
+  IDLE: 'idle',
+  PENDING: 'panding',
+  REJECTED: 'rejected',
+  RESOLVED: 'resolved',
+};
 const Movies = () => {
   const { setId, setStatusc, setStatusr, setBtnBack } = useCustomContext();
   const [name, setName] = useState('');
-  const [searchName, setSearchName] = useState('');
+  const [searchName, setSearchName] = useState(
+    JSON.parse(window.localStorage.getItem('searchName')) ?? ''
+  );
   const [searchParams, setSearchParams] = useSearchParams('');
   const [moviesSearch, setMoviesSearch] = useState(
     JSON.parse(window.localStorage.getItem('moviesSearch')) ?? []
   );
   console.log(searchParams.get('query'));
+  const [status, setStatus] = useState(STATUS.IDLE);
+
   const handleNameChange = e => {
     setName(e.currentTarget.value);
   };
@@ -25,19 +35,29 @@ const Movies = () => {
   };
 
   useEffect(() => {
+    setStatus(STATUS.PENDING);
     if (searchName.trim() === '') {
+      setStatus(STATUS.REJECTED);
       return;
     }
     getMovieSearch(searchName)
       .then(movies => {
         setMoviesSearch([...movies.results]);
+        setStatus(STATUS.RESOLVED);
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        console.error(error);
+        setStatus(STATUS.REJECTED);
+      });
   }, [searchName]);
 
   useEffect(() => {
     window.localStorage.setItem('moviesSearch', JSON.stringify(moviesSearch));
   }, [moviesSearch]);
+
+  useEffect(() => {
+    window.localStorage.setItem('searchName', JSON.stringify(searchName));
+  }, [searchName]);
 
   return (
     <div className={css.movies}>
@@ -55,24 +75,29 @@ const Movies = () => {
           Search
         </button>
       </form>
-      <ul className={css.movies_list}>
-        {moviesSearch.map(({ id, title }) => (
-          <li
-            key={id}
-            className={css.movies_item}
-            onClick={() => {
-              setId(id);
-              setStatusc(false);
-              setStatusr(false);
-              setBtnBack(false);
-            }}
-          >
-            <Link className={css.movies_link} to={`/movies/${id}`}>
-              {title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+
+      {status === STATUS.PENDING && <p className={css.cast_text}>Loading...</p>}
+
+      {status === STATUS.RESOLVED && (
+        <ul className={css.movies_list}>
+          {moviesSearch.map(({ id, title }) => (
+            <li
+              key={id}
+              className={css.movies_item}
+              onClick={() => {
+                setId(id);
+                setStatusc(false);
+                setStatusr(false);
+                setBtnBack(false);
+              }}
+            >
+              <Link className={css.movies_link} to={`/movies/${id}`}>
+                {title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
