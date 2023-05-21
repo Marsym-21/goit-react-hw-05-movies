@@ -6,6 +6,22 @@
   align-self: baseline;
   margin-top: 10px;
 }
+.movies_list {
+  margin: 0;
+}
+.movies_item {
+  font-size: 26px;
+}
+.movies_link {
+  text-decoration: none;
+  font-size: 26px;
+  color: inherit;
+}
+.movies_item:hover,
+.movies_item:focus {
+  color: #50a669;
+  cursor: pointer;
+}
 .input {
   height: 25px;
   font-size: 20px;

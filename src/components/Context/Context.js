@@ -10,6 +10,7 @@ const Context = ({ children }) => {
   const [id, setId] = useState('');
   const [statusC, setStatusc] = useState(false);
   const [statusR, setStatusr] = useState(false);
+  const [btnBack, setBtnBack] = useState(true);
   return (
     <ContextAlert.Provider
       value={{
@@ -19,6 +20,8 @@ const Context = ({ children }) => {
         setStatusc: setStatusc,
         statusR: statusR,
         setStatusr: setStatusr,
+        btnBack: btnBack,
+        setBtnBack: setBtnBack,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { useCustomContext } from '../Context/Context';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const { setId, setStatusc, setStatusr } = useCustomContext();
+  const { setId, setStatusc, setStatusr, setBtnBack } = useCustomContext();
   const [moviesArray, setMovies] = useState([]);
 
   useEffect(() => {
@@ -15,6 +15,13 @@ const Home = () => {
       })
       .catch(error => console.error(error));
   }, []);
+
+  const onCliclHomeList = id => {
+    setId(id);
+    setStatusc(false);
+    setStatusr(false);
+    setBtnBack(true);
+  };
 
   return (
     <div className={css.home}>
@@ -38,11 +45,7 @@ const Home = () => {
           ) : (
             <li
               key={id}
-              onClick={() => {
-                setId(id);
-                setStatusc(false);
-                setStatusr(false);
-              }}
+              onClick={onCliclHomeList(id)}
               className={css.home_item}
             >
               <Link className={css.home_link} to={`/movies/:${id}`}>

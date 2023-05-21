@@ -11,7 +11,6 @@ const MovieCast = () => {
   useEffect(() => {
     getMovieCast(id)
       .then(cast => {
-        console.log(cast.cast);
         setCast(cast.cast);
       })
       .catch(error => console.error(error));

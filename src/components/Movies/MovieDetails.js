@@ -8,7 +8,8 @@ import MovieCast from './MoviesCast';
 import MovieReviews from './MoviesReviews';
 
 const MovieDetails = () => {
-  const { id, statusC, setStatusc, statusR, setStatusr } = useCustomContext();
+  const { id, statusC, setStatusc, statusR, setStatusr, btnBack } =
+    useCustomContext();
   const [movie, setMovie] = useState({});
   const [date, setDate] = useState('');
   const [score, setScore] = useState(0);
@@ -18,6 +19,7 @@ const MovieDetails = () => {
   useEffect(() => {
     getMovieDetails(id)
       .then(movie => {
+        console.log(movie);
         setMovie(movie);
         const movieDate = movie.release_date;
         if (movieDate) {
@@ -38,7 +40,7 @@ const MovieDetails = () => {
 
   return movie.adult === false ? (
     <>
-      <Link className={css.movie_back_link} to={`/`}>
+      <Link className={css.movie_back_link} to={btnBack ? '/' : '/movies'}>
         <button className={css.movie_back}>
           <AiOutlineArrowLeft fill="black" size="12" />
           Go Back
