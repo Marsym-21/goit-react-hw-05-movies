@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCustomContext } from '../Context/Context';
 import { getMovieDetails } from '../GetContent/GetMovieDetails';
 import css from './movies.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import MovieCast from './MoviesCast';
 import MovieReviews from './MoviesReviews';
@@ -14,29 +14,60 @@ const MovieDetails = () => {
   const [date, setDate] = useState('');
   const [score, setScore] = useState(0);
   const [genres, setGenres] = useState('');
+  const { movieId } = useParams();
   const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500/';
 
-  useEffect(() => {
-    getMovieDetails(id)
-      .then(movie => {
-        console.log(movie);
-        setMovie(movie);
-        const movieDate = movie.release_date;
-        if (movieDate) {
-          setDate(movieDate.slice(0, 4));
-        }
-        const userScore = (movie.vote_average * 10).toFixed();
-        setScore(userScore);
+  console.log(movieId);
 
-        const arrayGenres = movie.genres;
-        let newArrayGenres = [];
-        arrayGenres.forEach(({ name }) => {
-          newArrayGenres.push(name);
-          setGenres(newArrayGenres.join(', '));
-        });
-      })
-      .catch(error => console.error(error));
-  }, [id]);
+  useEffect(() => {
+    if (movieId) {
+      getMovieDetails(JSON.parse(window.localStorage.getItem('movieId')))
+        .then(movie => {
+          setMovie(movie);
+          const movieDate = movie.release_date;
+          if (movieDate) {
+            setDate(movieDate.slice(0, 4));
+          }
+          const userScore = (movie.vote_average * 10).toFixed();
+          setScore(userScore);
+
+          const arrayGenres = movie.genres;
+          let newArrayGenres = [];
+          if (arrayGenres) {
+            arrayGenres.forEach(({ name }) => {
+              newArrayGenres.push(name);
+              setGenres(newArrayGenres.join(', '));
+            });
+          }
+        })
+        .catch(error => console.error(error));
+    } else {
+      getMovieDetails(id)
+        .then(movie => {
+          setMovie(movie);
+          const movieDate = movie.release_date;
+          if (movieDate) {
+            setDate(movieDate.slice(0, 4));
+          }
+          const userScore = (movie.vote_average * 10).toFixed();
+          setScore(userScore);
+
+          const arrayGenres = movie.genres;
+          let newArrayGenres = [];
+          if (arrayGenres) {
+            arrayGenres.forEach(({ name }) => {
+              newArrayGenres.push(name);
+              setGenres(newArrayGenres.join(', '));
+            });
+          }
+        })
+        .catch(error => console.error(error));
+    }
+  }, [id, movieId]);
+
+  useEffect(() => {
+    window.localStorage.setItem('movieId', JSON.stringify(movieId));
+  }, [movieId]);
 
   return movie.adult === false ? (
     <>
@@ -99,9 +130,11 @@ const MovieDetails = () => {
       {statusR ? <MovieReviews /> : ''}
     </>
   ) : (
-    <b className={css.movie_error}>
-      Sorry, we don't have detailed information about this movie !!!
-    </b>
+    movie.status_code === 34 && (
+      <b className={css.movie_error}>
+        Sorry, we don't have detailed information about this movie !!!
+      </b>
+    )
   );
 };
 export default MovieDetails;
