@@ -103,7 +103,7 @@ const MovieDetails = () => {
           <li className={css.movie_item_addinf}>
             <Link
               className={css.movie_link_addinf}
-              to={`/movies/:${id}/cast`}
+              to={`/movies/${id}/cast`}
               onClick={() => {
                 setStatusc(true);
                 setStatusr(false);
@@ -115,7 +115,7 @@ const MovieDetails = () => {
           <li className={css.movie_item_addinf}>
             <Link
               className={css.movie_link_addinf}
-              to={`/movies/:${id}/reviews`}
+              to={`/movies/${id}/reviews`}
               onClick={() => {
                 setStatusc(false);
                 setStatusr(true);

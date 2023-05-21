@@ -67,7 +67,7 @@ const Movies = () => {
               setBtnBack(false);
             }}
           >
-            <Link className={css.movies_link} to={`/movies/:${id}`}>
+            <Link className={css.movies_link} to={`/movies/${id}`}>
               {title}
             </Link>
           </li>

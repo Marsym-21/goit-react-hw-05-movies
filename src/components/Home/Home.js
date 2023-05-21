@@ -31,14 +31,10 @@ const Home = () => {
           title ? (
             <li
               key={id}
-              onClick={() => {
-                setId(id);
-                setStatusc(false);
-                setStatusr(false);
-              }}
+              onClick={onCliclHomeList(id)}
               className={css.home_item}
             >
-              <Link className={css.home_link} to={`/movies/:${id}`}>
+              <Link className={css.home_link} to={`/movies/${id}`}>
                 {title}
               </Link>
             </li>
@@ -48,7 +44,7 @@ const Home = () => {
               onClick={onCliclHomeList(id)}
               className={css.home_item}
             >
-              <Link className={css.home_link} to={`/movies/:${id}`}>
+              <Link className={css.home_link} to={`/movies/${id}`}>
                 {name}
               </Link>
             </li>
