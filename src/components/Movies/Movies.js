@@ -12,7 +12,7 @@ const Movies = () => {
   const [moviesSearch, setMoviesSearch] = useState(
     JSON.parse(window.localStorage.getItem('moviesSearch')) ?? []
   );
-
+  console.log(searchParams.get('query'));
   const handleNameChange = e => {
     setName(e.currentTarget.value);
   };
